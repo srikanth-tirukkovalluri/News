@@ -9,21 +9,37 @@ import Foundation
 
 class HeadlinesViewModel: ObservableObject {
     @Published var headlines: [Article] = []
+    @Published var savedArticles: [Article] = []
     @Published var viewState: HeadlinesViewState = .new
     @Published var sourceItems: [SourceItem]
 
     private var appState: AppState
-
     private let networkClient = NetworkClient(jsonDecoder: Article.jsonDecoder)
+    
+    func shouldShowSaveOption(for article: Article) -> Bool {
+        !savedArticles.contains(article)
+    }
     
     init(appState: AppState) {
         self.appState = appState
         self.sourceItems = appState.sourceItems
+        self.savedArticles = appState.savedArticles
 
         // Subscribe to changes in the AppState
         appState.$sourceItems.assign(to: &$sourceItems)
+        appState.$savedArticles.assign(to: &$savedArticles)
     }
     
+    private func modifySharedSourceItems(_ sourceItems: [SourceItem]) {
+        // Push changes back to AppState
+        appState.updateSourceItems(sourceItems)
+    }
+    
+    private func modifySharedSavedArticles(_ savedArticles: [Article]) {
+        // Push changes back to AppState
+        appState.updateSavedArticles(savedArticles)
+    }
+
     @MainActor // ??
     func fetchTopHeadlines() async {
         self.viewState = .loading
@@ -53,6 +69,13 @@ class HeadlinesViewModel: ObservableObject {
                 self.viewState = .error(.unknown(error))
             }
         }
+    }
+}
+
+extension HeadlinesViewModel {
+    func deleteSavedArticles(at offsets: IndexSet) {
+        savedArticles.remove(atOffsets: offsets)
+        modifySharedSavedArticles(savedArticles)
     }
 }
 

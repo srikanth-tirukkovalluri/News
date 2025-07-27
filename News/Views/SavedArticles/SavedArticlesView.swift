@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SavedArticlesView: View {
-    @Binding var articles: [Article]
-    
+    @ObservedObject var viewModel: HeadlinesViewModel
+
     var body: some View {
         NavigationStack {
             VStack {
-                if articles.isEmpty {
+                if self.viewModel.savedArticles.isEmpty {
                     self.noSavedArticlesView()
                 } else {
                     self.articlesView()
@@ -33,10 +33,12 @@ struct SavedArticlesView: View {
     }
     
     func articlesView() -> some View {
-        ArticlesListView(articles: $articles, shouldShowDeleteOption: .constant(!articles.isEmpty))
+        ArticlesListView(viewModel: viewModel, isShowingSavedArticles: true)
     }
 }
 
 #Preview {
-    SavedArticlesView(articles: .constant([Article.dummyArticle()]))
+    let appState = AppState()
+    SavedArticlesView(viewModel: HeadlinesViewModel(appState: appState))
+        .environmentObject(appState)
 }

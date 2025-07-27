@@ -13,7 +13,11 @@ class AppState: ObservableObject {
     @Published var savedArticles = [Article]()
     @Published var selectedTabItem: TabViewItem = .topHeadlines
     
-    func updateValue(newSourceItems: [SourceItem]) {
+    func updateSourceItems(_ newSourceItems: [SourceItem]) {
         sourceItems = newSourceItems
+    }
+    
+    func updateSavedArticles(_ newSavedArticles: [Article]) {
+        savedArticles = newSavedArticles
     }
 }

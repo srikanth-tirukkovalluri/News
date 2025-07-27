@@ -23,7 +23,8 @@ class SourcesViewModel: ObservableObject {
     }
     
     private func modifySharedData(sourceItems: [SourceItem]) {
-        appState.updateValue(newSourceItems: sourceItems)
+        // Push changes back to AppState
+        appState.updateSourceItems(sourceItems)
     }
     
     @MainActor

@@ -11,7 +11,7 @@ struct MainContentView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var headlinesViewModel: HeadlinesViewModel
     @StateObject private var sourcesViewModel: SourcesViewModel
-    
+
     init(appState: AppState) {
         // Initialize the StateObject using the wrappedValue
         // This ensures the object is created only once for the view's lifetime.
@@ -31,7 +31,7 @@ struct MainContentView: View {
                     Label(TabViewItem.sources.title, systemImage: TabViewItem.sources.systemImage)
                 }
                 .tag(TabViewItem.sources)
-            SavedArticlesView(articles: $appState.savedArticles)
+            SavedArticlesView(viewModel: headlinesViewModel)
                 .tabItem {
                     Label(TabViewItem.savedArticles.title, systemImage: TabViewItem.savedArticles.systemImage)
                 }

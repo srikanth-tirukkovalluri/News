@@ -52,7 +52,7 @@ struct HeadlinesView: View {
     }
     
     func articlesView() -> some View {
-        ArticlesListView(articles: .constant(self.viewModel.headlines), shouldShowDeleteOption: .constant(false))
+        ArticlesListView(viewModel: self.viewModel, isShowingSavedArticles: false)
             .listStyle(.plain)
     }
 
