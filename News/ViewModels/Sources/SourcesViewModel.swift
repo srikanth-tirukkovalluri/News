@@ -12,19 +12,19 @@ class SourcesViewModel: ObservableObject {
     @Published var sourceItems: [SourceItem]
 
     private let networkClient = NetworkClient()
-    private var appState: AppState
+    private var sharedData: SharedData
 
-    init(appState: AppState) {
-        self.appState = appState
-        self.sourceItems = appState.sourceItems
+    init(sharedData: SharedData) {
+        self.sharedData = sharedData
+        self.sourceItems = sharedData.sourceItems
 
-        // Subscribe to changes in the AppState
-        appState.$sourceItems.assign(to: &$sourceItems)
+        // Subscribe to changes in the SharedData
+        sharedData.$sourceItems.assign(to: &$sourceItems)
     }
     
     private func modifySharedData(sourceItems: [SourceItem]) {
-        // Push changes back to AppState
-        appState.updateSourceItems(sourceItems)
+        // Push changes back to SharedData
+        sharedData.updateSourceItems(sourceItems)
     }
     
     @MainActor

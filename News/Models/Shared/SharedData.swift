@@ -1,13 +1,13 @@
 //
-//  AppState.swift
+//  SharedData.swift
 //  News
 //
-//  Created by Srikanth Chaitanya Tirukkovalluri on 26/7/2025.
+//  Created by Srikanth Chaitanya Tirukkovalluri on 28/7/2025.
 //
 
 import SwiftUI
 
-class AppState: ObservableObject {
+class SharedData: ObservableObject {
     @Published var topHeadlines = [Article]()
     @Published var sourceItems = [SourceItem]()
     @Published var savedArticles = [Article]()

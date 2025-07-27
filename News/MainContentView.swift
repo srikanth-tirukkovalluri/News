@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct MainContentView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var sharedData: SharedData
     @StateObject private var headlinesViewModel: HeadlinesViewModel
     @StateObject private var sourcesViewModel: SourcesViewModel
 
-    init(appState: AppState) {
+    init(sharedData: SharedData) {
         // Initialize the StateObject using the wrappedValue
         // This ensures the object is created only once for the view's lifetime.
-        _headlinesViewModel = StateObject(wrappedValue: HeadlinesViewModel(appState: appState))
-        _sourcesViewModel = StateObject(wrappedValue: SourcesViewModel(appState: appState))
+        _headlinesViewModel = StateObject(wrappedValue: HeadlinesViewModel(sharedData: sharedData))
+        _sourcesViewModel = StateObject(wrappedValue: SourcesViewModel(sharedData: sharedData))
     }
     
     var body: some View {
-        TabView(selection: $appState.selectedTabItem) {
+        TabView(selection: $sharedData.selectedTabItem) {
             HeadlinesView(viewModel: headlinesViewModel)
                 .tabItem {
                     Label(TabViewItem.topHeadlines.title, systemImage: TabViewItem.topHeadlines.systemImage)
@@ -41,8 +41,8 @@ struct MainContentView: View {
 }
 
 #Preview {
-    let appState = AppState()
+    let sharedData = SharedData()
 
-    MainContentView(appState: appState)
-        .environmentObject(appState)
+    MainContentView(sharedData: sharedData)
+        .environmentObject(sharedData)
 }

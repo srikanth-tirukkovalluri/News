@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SourcesView: View {
     @ObservedObject var viewModel: SourcesViewModel
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var sharedData: SharedData
 
     @State private var shouldSelectAll: Bool = false
 
@@ -44,7 +44,7 @@ struct SourcesView: View {
     func toolbarItems() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button("Done") {
-                appState.selectedTabItem = .topHeadlines
+                sharedData.selectedTabItem = .topHeadlines
             }
         }
 
@@ -142,7 +142,7 @@ struct SourcesView: View {
 }
 
 #Preview {
-    let appState = AppState()
-    SourcesView(viewModel: SourcesViewModel(appState: appState))
-        .environmentObject(appState)
+    let sharedData = SharedData()
+    SourcesView(viewModel: SourcesViewModel(sharedData: sharedData))
+        .environmentObject(sharedData)
 }

@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct NewsApp: App {
-    @StateObject var appState = AppState()
+    @StateObject var sharedData = SharedData()
 
     var body: some Scene {
         WindowGroup {
-            MainContentView(appState: appState)
-                .environmentObject(appState)
+            MainContentView(sharedData: sharedData)
+                .environmentObject(sharedData)
         }
     }
 }

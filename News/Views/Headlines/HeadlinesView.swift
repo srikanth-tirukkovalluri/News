@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HeadlinesView: View {
     @ObservedObject var viewModel: HeadlinesViewModel
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var sharedData: SharedData
 
     @State var shouldShowSaveOption: Bool = true
         
@@ -64,7 +64,7 @@ struct HeadlinesView: View {
                 .multilineTextAlignment(.center)
                 .font(.callout)
             Button {
-                self.appState.selectedTabItem = .sources
+                self.sharedData.selectedTabItem = .sources
             } label: {
                 HStack {
                     Text("Select sources")
@@ -82,7 +82,7 @@ struct HeadlinesView: View {
                 .multilineTextAlignment(.center)
                 .font(.callout)
             Button {
-                self.appState.selectedTabItem = .sources
+                self.sharedData.selectedTabItem = .sources
             } label: {
                 HStack {
                     Text("Select more sources")
@@ -116,7 +116,7 @@ struct HeadlinesView: View {
 }
 
 #Preview {
-    let appState = AppState()
-    HeadlinesView(viewModel: HeadlinesViewModel(appState: appState))
-        .environmentObject(appState)    
+    let sharedData = SharedData()
+    HeadlinesView(viewModel: HeadlinesViewModel(sharedData: sharedData))
+        .environmentObject(sharedData)    
 }

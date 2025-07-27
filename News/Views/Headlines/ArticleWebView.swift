@@ -12,7 +12,7 @@ struct ArticleWebView: View {
     var article: Article
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var sharedData: SharedData
 
     // Bindings that will be passed to our WebView via its Coordinator
     @State private var showSavedAlert: Bool = false
@@ -69,7 +69,7 @@ struct ArticleWebView: View {
         if self.shouldShowSaveOption {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save Article", systemImage: "square.and.arrow.down") {
-                    appState.savedArticles.append(self.article)
+                    sharedData.savedArticles.append(self.article)
                     self.showSavedAlert = true
                 }
                 .alert(isPresented: $showSavedAlert) {
@@ -82,5 +82,5 @@ struct ArticleWebView: View {
 
 #Preview {
     ArticleWebView(shouldShowSaveOption: false, article: Article.dummyArticle())
-        .environmentObject(AppState())
+        .environmentObject(SharedData())
 }

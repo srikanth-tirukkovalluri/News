@@ -13,31 +13,31 @@ class HeadlinesViewModel: ObservableObject {
     @Published var viewState: HeadlinesViewState = .new
     @Published var sourceItems: [SourceItem]
 
-    private var appState: AppState
+    private var sharedData: SharedData
     private let networkClient = NetworkClient(jsonDecoder: Article.jsonDecoder)
     
     func shouldShowSaveOption(for article: Article) -> Bool {
         !savedArticles.contains(article)
     }
     
-    init(appState: AppState) {
-        self.appState = appState
-        self.sourceItems = appState.sourceItems
-        self.savedArticles = appState.savedArticles
+    init(sharedData: SharedData) {
+        self.sharedData = sharedData
+        self.sourceItems = sharedData.sourceItems
+        self.savedArticles = sharedData.savedArticles
 
-        // Subscribe to changes in the AppState
-        appState.$sourceItems.assign(to: &$sourceItems)
-        appState.$savedArticles.assign(to: &$savedArticles)
+        // Subscribe to changes in the SharedData
+        sharedData.$sourceItems.assign(to: &$sourceItems)
+        sharedData.$savedArticles.assign(to: &$savedArticles)
     }
     
     private func modifySharedSourceItems(_ sourceItems: [SourceItem]) {
-        // Push changes back to AppState
-        appState.updateSourceItems(sourceItems)
+        // Push changes back to SharedData
+        sharedData.updateSourceItems(sourceItems)
     }
     
     private func modifySharedSavedArticles(_ savedArticles: [Article]) {
-        // Push changes back to AppState
-        appState.updateSavedArticles(savedArticles)
+        // Push changes back to SharedData
+        sharedData.updateSavedArticles(savedArticles)
     }
 
     @MainActor // ??
