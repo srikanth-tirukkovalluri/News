@@ -28,6 +28,11 @@ class SourcesViewModel: ObservableObject {
     
     @MainActor
     func fetchSources() async {
+        if case .successful = viewState, !self.sourceItems.isEmpty {
+            // data is already there, so ignore fetch
+            return
+        }
+        
         self.viewState = .loading
 
         do {
