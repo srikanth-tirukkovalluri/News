@@ -14,7 +14,6 @@ class SharedData: ObservableObject {
     @Published var selectedTabItem: TabViewItem = .topHeadlines
 
     static let sharedInstance = SharedData()
-    private let defaults = UserDefaults.standard
     var selectedSourceIdentifiers = [String]()
 
     private init() {
@@ -34,47 +33,19 @@ class SharedData: ObservableObject {
 
 extension SharedData {
     func saveArticles() {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(savedArticles)
-            defaults.set(encodedData, forKey: "SavedArticles")
-        } catch {
-            print("Error encoding SavedArticles: \(error)")
-        }
+        DataManager.saveData(savedArticles, to: "SavedArticles")
     }
     
     private func readArticles() {
-        guard let savedData = UserDefaults.standard.data(forKey: "SavedArticles") else {
-            return
-        }
-        do {
-            let decodedObjects = try JSONDecoder().decode([Article].self, from: savedData)
-            self.savedArticles = decodedObjects
-        } catch {
-            print("Error decoding SavedArticles: \(error)")
-        }
+        self.savedArticles = DataManager.loadData(from: "SavedArticles", as: [Article].self) ?? [Article]()
     }
     
     func saveSelectedSourceIdentifiers() {
-        do {
-            let selectedSourceIdentifiers = self.sourceItems.compactMap { $0.isSelected ? $0.source.identifier : nil }
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(selectedSourceIdentifiers)
-            defaults.set(encodedData, forKey: "SelectedSourceIdentifiers")
-        } catch {
-            print("Error encoding SelectedSourceIdentifiers: \(error)")
-        }
+        let selectedSourceIdentifiers = self.sourceItems.compactMap { $0.isSelected ? $0.source.identifier : nil }
+        DataManager.saveData(selectedSourceIdentifiers, to: "SelectedSourceIdentifiers")
     }
     
     private func readSaveSelectedSourceIdentifiers() {
-        guard let savedData = UserDefaults.standard.data(forKey: "SelectedSourceIdentifiers") else {
-            return
-        }
-        do {
-            let decodedObjects = try JSONDecoder().decode([String].self, from: savedData)
-            self.selectedSourceIdentifiers = decodedObjects
-        } catch {
-            print("Error decoding SavedArticles: \(error)")
-        }
+        self.selectedSourceIdentifiers = DataManager.loadData(from: "SelectedSourceIdentifiers", as: [String].self) ?? [String]()
     }
 }
