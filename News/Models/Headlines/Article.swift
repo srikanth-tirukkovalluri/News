@@ -13,16 +13,6 @@ struct Articles: Codable {
     let articles: [Article]
 }
 
-struct ArticleSource: Codable {
-    let id: String?
-    let name: String
-    
-    enum CodingKeys: CodingKey {
-        case id
-        case name
-    }
-}
-
 struct Article: Codable, Hashable, Identifiable {
     let id = UUID()
     let author: String?
@@ -100,6 +90,10 @@ extension Article {
         case sourceName = "source" // For nested parsing
     }
     
+    enum SourceKeys: String, CodingKey {
+        case name
+    }
+    
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.author = try container.decodeIfPresent(String.self, forKey: .author)
@@ -111,9 +105,24 @@ extension Article {
         self.content = try container.decodeIfPresent(String.self, forKey: .content)
         
         // Handle nested 'source' object
-        let sourceContainer = try container.nestedContainer(keyedBy: ArticleSource.CodingKeys.self, forKey: .sourceName)
+        let sourceContainer = try container.nestedContainer(keyedBy: SourceKeys.self, forKey: .sourceName)
         
         // Decode properties from the nested container
         self.sourceName = try sourceContainer.decode(String.self, forKey: .name)
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(author, forKey: .author)
+        try container.encode(title, forKey: .title)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encode(urlPath, forKey: .urlPath)
+        try container.encodeIfPresent(urlPathToImage, forKey: .urlPathToImage)
+        try container.encode(publishedAt, forKey: .publishedAt)
+        try container.encodeIfPresent(content, forKey: .content)
+        
+        // Create and encode into a nested container for sourceName
+        var sourceContainer = container.nestedContainer(keyedBy: SourceKeys.self, forKey: .sourceName)
+        try sourceContainer.encode(sourceName, forKey: .name)
     }
 }

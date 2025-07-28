@@ -38,7 +38,6 @@ struct SavedArticlesView: View {
 }
 
 #Preview {
-    let sharedData = SharedData()
-    SavedArticlesView(viewModel: HeadlinesViewModel(sharedData: sharedData))
-        .environmentObject(sharedData)
+    SavedArticlesView(viewModel: HeadlinesViewModel(sharedData: SharedData.sharedInstance))
+        .environmentObject(SharedData.sharedInstance)
 }

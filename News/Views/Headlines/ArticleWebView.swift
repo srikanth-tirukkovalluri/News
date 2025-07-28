@@ -82,5 +82,5 @@ struct ArticleWebView: View {
 
 #Preview {
     ArticleWebView(shouldShowSaveOption: false, article: Article.dummyArticle())
-        .environmentObject(SharedData())
+        .environmentObject(SharedData.sharedInstance)
 }

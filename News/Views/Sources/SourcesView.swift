@@ -142,7 +142,6 @@ struct SourcesView: View {
 }
 
 #Preview {
-    let sharedData = SharedData()
-    SourcesView(viewModel: SourcesViewModel(sharedData: sharedData))
-        .environmentObject(sharedData)
+    SourcesView(viewModel: SourcesViewModel(sharedData: SharedData.sharedInstance))
+        .environmentObject(SharedData.sharedInstance)
 }

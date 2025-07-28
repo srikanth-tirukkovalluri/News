@@ -41,8 +41,6 @@ struct MainContentView: View {
 }
 
 #Preview {
-    let sharedData = SharedData()
-
-    MainContentView(sharedData: sharedData)
-        .environmentObject(sharedData)
+    MainContentView(sharedData: SharedData.sharedInstance)
+        .environmentObject(SharedData.sharedInstance)
 }

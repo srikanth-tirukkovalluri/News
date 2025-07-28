@@ -89,6 +89,17 @@ struct SourceItem: Hashable, Identifiable {
     let source: Source
     var isSelected: Bool
     
+    init(source: Source, isSelected: Bool) {
+        self.source = source
+        
+        // Preselect a source if found in saved data
+        if SharedData.sharedInstance.selectedSourceIdentifiers.contains(source.identifier) {
+            self.isSelected = true
+        } else {
+            self.isSelected = isSelected
+        }
+    }
+    
     static func dummySourceItems() -> [SourceItem] {
         Source.dummySourcess().map { SourceItem(source: $0, isSelected: false) }
     }

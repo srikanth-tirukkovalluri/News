@@ -9,8 +9,9 @@ import SwiftUI
 
 @main
 struct NewsApp: App {
-    @StateObject var sharedData = SharedData()
-
+    @StateObject var sharedData = SharedData.sharedInstance
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             MainContentView(sharedData: sharedData)

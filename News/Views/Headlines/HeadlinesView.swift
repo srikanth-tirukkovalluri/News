@@ -116,7 +116,6 @@ struct HeadlinesView: View {
 }
 
 #Preview {
-    let sharedData = SharedData()
-    HeadlinesView(viewModel: HeadlinesViewModel(sharedData: sharedData))
-        .environmentObject(sharedData)    
+    HeadlinesView(viewModel: HeadlinesViewModel(sharedData: SharedData.sharedInstance))
+        .environmentObject(SharedData.sharedInstance)    
 }
