@@ -77,9 +77,7 @@ struct ArticleWebView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save Article", systemImage: "square.and.arrow.down") {
                     sharedData.savedArticles.append(self.article)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.showSavedAlert = true
-                    }
+                    self.showSavedAlert = true
                 }
             }
         }
