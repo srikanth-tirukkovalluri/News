@@ -28,3 +28,9 @@ extension Source {
         )
     }
 }
+
+extension SourceItem {
+    static func dummySourceItems() -> [SourceItem] {
+        Source.dummySourcess().map { SourceItem(source: $0, isSelected: false) }
+    }
+}

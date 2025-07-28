@@ -99,8 +99,4 @@ struct SourceItem: Hashable, Identifiable {
             self.isSelected = isSelected
         }
     }
-    
-    static func dummySourceItems() -> [SourceItem] {
-        Source.dummySourcess().map { SourceItem(source: $0, isSelected: false) }
-    }
 }
