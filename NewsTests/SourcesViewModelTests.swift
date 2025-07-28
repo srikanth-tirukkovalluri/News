@@ -27,7 +27,7 @@ final class SourcesViewModelTests: XCTestCase {
     func testFetchSourcesNoSourcesSelectedError() async {
         viewModel = SourcesViewModel(sharedData: SharedData.sharedInstance, networkClient: MockNetworkClient(filename: "sources-empty"))
 
-        let noResultsFoundErrorExpectation = XCTestExpectation(description: "State changed to Error noSourcesSelected")
+        let noResultsFoundErrorExpectation = XCTestExpectation(description: "State changed to Error noResultsFound")
         
         await viewModel.fetchSources()
         

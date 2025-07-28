@@ -20,8 +20,6 @@ struct HeadlinesView: View {
                     self.loadingView()
                 case .successful:
                     self.articlesView()
-                case .error(let error) where error == .noSourcesSelected:
-                    self.noSourcesSelectedView()
                 case .error(let error) where error == .noResultsFound:
                     self.noResultsView()
                 case .error:
@@ -51,24 +49,6 @@ struct HeadlinesView: View {
     func articlesView() -> some View {
         ArticlesListView(viewModel: self.viewModel)
             .listStyle(.plain)
-    }
-
-    func noSourcesSelectedView() -> some View {
-        VStack {
-            Text("Please select some sources to see headlines")
-                .foregroundStyle(.gray)
-                .padding(.horizontal, 10)
-                .multilineTextAlignment(.center)
-                .font(.callout)
-            Button {
-                self.sharedData.selectedTabItem = .sources
-            } label: {
-                HStack {
-                    Text("Select sources")
-                    Image(systemName: "plus.circle")
-                }
-            }
-        }
     }
     
     func noResultsView() -> some View {

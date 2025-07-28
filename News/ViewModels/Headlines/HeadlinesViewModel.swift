@@ -43,12 +43,6 @@ extension HeadlinesViewModel {
             selectedSourceIdentifiers = SharedData.sharedInstance.selectedSourceIdentifiers
         }
         
-        // If the sources are not selected then prompt to select sources
-        guard !selectedSourceIdentifiers.isEmpty else {
-            self.viewState = .error(.noSourcesSelected)
-            return
-        }
-        
         do {
             let fetchedHeadlines = try await networkClient.request(endpoint: .getHeadlines(sources: selectedSourceIdentifiers ), as: Articles.self)
             self.articles = fetchedHeadlines.articles

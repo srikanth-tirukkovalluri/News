@@ -25,23 +25,6 @@ final class HeadlinesViewModelTess: XCTestCase {
         DataManager.deleteData(at: SharedData.selectedSourceIdentifiersKey)
     }
     
-    func testFetchHeadlinesNoSourcesSelectedError() async {
-        let noSourcesSelectedErrorExpectation = XCTestExpectation(description: "State changed to Error noSourcesSelected")
-        
-        await viewModel.fetchTopHeadlines()
-        
-        cancellable = viewModel.$viewState.sink { newState in
-            switch newState {
-            case .error(let actualError) where actualError == .noSourcesSelected:
-                noSourcesSelectedErrorExpectation.fulfill()
-            default:
-                break
-            }
-        }
-        
-        await fulfillment(of: [noSourcesSelectedErrorExpectation], timeout: 5.0)
-    }
-    
     func testFetchHeadlinesNoResultsError() async {
         viewModel = HeadlinesViewModel(sharedData: SharedData.sharedInstance, networkClient: MockNetworkClient(filename: "top-headlines-empty", jsonDecoder: Article.jsonDecoder))
         viewModel.sourceItems = [SourceItem(source: Source.dummySource(), isSelected: true)]
