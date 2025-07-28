@@ -5,6 +5,7 @@
 //  Created by Srikanth Chaitanya Tirukkovalluri on 27/7/2025.
 //
 
+/// SourcesError is used to capture type of error while fetching the sources
 enum SourcesError: Equatable {
     case noResultsFound
     case unknown(Error?)

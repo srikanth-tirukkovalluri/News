@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// NetworkError is used to describe an error that can happen during an API call
 enum NetworkError: Error {
     case invalidURL
     case decodingError(Error)

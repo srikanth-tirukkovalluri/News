@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// SavedArticlesViewModel is used show saved articles. This also hosts the ability to delete the saved articles
 class SavedArticlesViewModel: ArticlesViewModel {
     override init(sharedData: SharedData) {
         super.init(sharedData: sharedData)

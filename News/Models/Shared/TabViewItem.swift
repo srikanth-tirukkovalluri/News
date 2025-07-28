@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// TabViewItem enum is used to tag the TabView item and refer to it in a more redable way
 enum TabViewItem: Int {
     case topHeadlines
     case sources

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// SourcesView shows the fetched Sources in a ListView.
 struct SourcesView: View {
     @ObservedObject var viewModel: SourcesViewModel
     @EnvironmentObject var sharedData: SharedData

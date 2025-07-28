@@ -7,9 +7,9 @@
 
 import SwiftUI
 
+/// ArticlesListView shows all the articles in a ListView. Both HeadlinesView and SavedArticlesView use this
 struct ArticlesListView: View {
     @Environment(\.editMode) private var editMode
-    
     @ObservedObject var viewModel: ArticlesViewModel
     
     // State to hold the currently selected article. When this becomes non-nil, the sheet will present.
@@ -35,16 +35,17 @@ struct ArticlesListView: View {
                         }
                     }
             }
-            .onDelete(perform: isShowingSavedArticles ? deleteItem : nil) // <--- This enables swipe-to-delete
+            .onDelete(perform: isShowingSavedArticles ? deleteItem : nil) // This enables swipe-to-delete
         }
         .listStyle(.plain)
         .sheet(item: $selectedArticle) { article in
+            // Show Article as a modal in a WebView when selected
             let shouldShowSaveOption = (viewModel as? HeadlinesViewModel)?.shouldShowSaveOption(for: article) ?? false
             ArticleWebView(shouldShowSaveOption: shouldShowSaveOption, article: article)
         }
         .toolbar {
             if self.isShowingSavedArticles {
-                EditButton() // <--- This adds the Edit/Done button
+                EditButton() // This adds the Edit/Done button
             }
         }
     }

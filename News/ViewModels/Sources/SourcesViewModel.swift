@@ -7,7 +7,9 @@
 
 import Foundation
 
+/// SourcesViewModel is used show sources using which Headlines are shown. This also hosts the ability to fetch and save sources
 class SourcesViewModel: ObservableObject {
+    // Publish changes
     @Published var viewState: SourcesViewState = .new
     @Published var sourceItems: [SourceItem]
 
@@ -30,7 +32,7 @@ class SourcesViewModel: ObservableObject {
 }
 
 extension SourcesViewModel {
-    @MainActor
+    @MainActor // Always run on main thread
     func fetchSources() async {
         if case .successful = viewState, !self.sourceItems.isEmpty {
             // data is already there, so ignore fetch
@@ -41,25 +43,21 @@ extension SourcesViewModel {
 
         do {
             let fetchedSources = try await networkClient.request(endpoint: .getSources, as: Sources.self)
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.sourceItems = fetchedSources.sources.map { SourceItem(source: $0, isSelected: false) }
-                self.modifySharedData(sourceItems: sourceItems)
-                
-                if self.sourceItems.isEmpty {
-                    self.viewState = .error(.noResultsFound)
-                } else {
-                    self.viewState = .successful
-                }
+
+            self.sourceItems = fetchedSources.sources.map { SourceItem(source: $0, isSelected: false) }
+            self.modifySharedData(sourceItems: sourceItems)
+            
+            if self.sourceItems.isEmpty {
+                self.viewState = .error(.noResultsFound)
+            } else {
+                self.viewState = .successful
             }
         } catch {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.viewState = .error(.unknown(error))
-            }
+            self.viewState = .error(.unknown(error))
         }
     }
     
+    /// This function is used to mark all the sources in one go. The modified changes are propogated back to the SharedData object
     func updateSelection(shouldSelectAll: Bool) {
         var newSourceItems: [SourceItem] = []
         for var sourceItem in sourceItems {
@@ -70,6 +68,7 @@ extension SourcesViewModel {
         self.modifySharedData(sourceItems: newSourceItems)
     }
     
+    /// This function is used to mark a single the source. The modified changes are propogated back to the SharedData object
     func updateSelection(shouldSelect: Bool, for selectedSourceItem: SourceItem) {
         var newSourceItems: [SourceItem] = []
 

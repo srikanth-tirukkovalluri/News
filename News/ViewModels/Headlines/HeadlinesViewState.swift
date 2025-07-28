@@ -5,6 +5,7 @@
 //  Created by Srikanth Chaitanya Tirukkovalluri on 28/7/2025.
 //
 
+/// HeadlinesViewState is used to capture the current view state based on which the UI updates accordingly
 enum HeadlinesViewState: Equatable {
     case new
     case loading
@@ -19,7 +20,7 @@ enum HeadlinesViewState: Equatable {
             return true
         case (.successful, .successful):
             return true
-        case (.error(let actualError1), .error(let actualError2)):
+        case (.error(_), .error(_)):
             return true
         default:
             return false

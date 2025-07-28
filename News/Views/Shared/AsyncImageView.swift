@@ -7,14 +7,19 @@
 
 import SwiftUI
 
-// A reusable view to load an image from a URL with loading and error states.
+/// AsyncImageView is a reusable view to load an image from a URL with loading and error states.
 struct AsyncImageView: View {
     let url: URL? // The URL of the image to load (Optional for flexibility)
     let contentMode: ContentMode // How the image should scale within its frame (e.g., .fit, .fill)
     let width: CGFloat?     // Optional fixed width for the image/placeholder
     let height: CGFloat?    // Optional fixed height for the image/placeholder
     
-    // Initializer to make the view easy to configure
+    /// Initializer to make the view easy to configure
+    /// - Parameters:
+    ///   - url: The url to load the image
+    ///   - contentMode: that defines how a view’s content fills the available space
+    ///   - width: A fixed width for the resulting view. If `width` is `nil`, the resulting view assumes this view's sizing behavior.
+    ///   - height: A fixed height for the resulting view. If `height` is `nil`, the resulting view assumes this view's sizing behavior.
     init(url: URL?, contentMode: ContentMode = .fit, width: CGFloat? = nil, height: CGFloat? = nil) {
         self.url = url
         self.contentMode = contentMode

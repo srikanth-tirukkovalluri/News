@@ -8,6 +8,7 @@
 import SwiftUI
 import WebKit
 
+/// WebViewState captures the state of the WKWebView.
 class WebViewState : ObservableObject {
     @Published var url: URL?
     @Published var isLoading = false
@@ -15,6 +16,7 @@ class WebViewState : ObservableObject {
     @Published var estimatedProgress = 0.0
 }
 
+/// WebView hosts WKWebView.
 struct WebView: UIViewRepresentable {
     var webViewState : WebViewState
     var url: URL?

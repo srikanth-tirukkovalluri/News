@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// SavedArticlesView shows the saved Articles in a ListView.
 struct SavedArticlesView: View {
     @ObservedObject var viewModel: ArticlesViewModel
 

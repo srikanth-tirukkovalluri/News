@@ -5,6 +5,7 @@
 //  Created by Srikanth Chaitanya Tirukkovalluri on 27/7/2025.
 //
 
+/// Convenience menthods to generate dummy Sources for the previews to work.
 extension Source {
     static func dummySourcess() -> [Source] {
         do {

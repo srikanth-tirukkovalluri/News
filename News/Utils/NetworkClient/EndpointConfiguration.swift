@@ -7,11 +7,15 @@
 
 import Foundation
 
+/// EndpointConfiguration enum is used to define the URL configuration, like the url, path etc
 enum EndpointConfiguration {
-    static let apiKey = "7a35900a3fa3479fac0c6d6ca5b3928e"
+    static let apiKeyValue = "7a35900a3fa3479fac0c6d6ca5b3928e"
     static let baseURLString = "https://newsapi.org/v2"
     static let language = "en"
-    
+    static let languageKey = "language"
+    static let apiKey = "apiKey"
+    static let sourcesKey = "sources"
+
     case getHeadlines(sources: [String])
     case getSources
 
@@ -28,11 +32,11 @@ enum EndpointConfiguration {
 
         switch self {
         case .getHeadlines(let sources):
-            let params = ["apiKey": Self.apiKey, "language": Self.language, "sources": sources.joined(separator: ",")]
+            let params = [Self.apiKey: Self.apiKeyValue, Self.languageKey: Self.language, Self.sourcesKey: sources.joined(separator: ",")]
             queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
             
         case .getSources:
-            let params: [String: String] = ["apiKey": Self.apiKey, "language": Self.language]
+            let params: [String: String] = [Self.apiKey: Self.apiKeyValue, Self.languageKey: Self.language]
             queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
         }
         

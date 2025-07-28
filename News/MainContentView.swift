@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// MainContentView is the main view that the app starts off with that hosts the Tabbar showing Headlines, Sources and Saved Articles.
 struct MainContentView: View {
     @StateObject private var headlinesViewModel: HeadlinesViewModel
     @StateObject private var sourcesViewModel: SourcesViewModel

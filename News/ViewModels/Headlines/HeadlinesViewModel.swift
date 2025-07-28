@@ -7,12 +7,15 @@
 
 import Foundation
 
+/// HeadlinesViewModel is used show headlines for the selected Sources. This also hosts the ability to fetch and save headlines
 class HeadlinesViewModel: ArticlesViewModel {
+    // Publish changes
     @Published var viewState: HeadlinesViewState = .new
     @Published var sourceItems: [SourceItem]
 
     private let networkClient: NetworkClientProvider
     
+    /// This function determines whether to show Save option while reading an Article. If the article is already saved the it returns false
     func shouldShowSaveOption(for article: Article) -> Bool {
         !self.sharedData.savedArticles.map({ $0.urlPath }).contains(article.urlPath)
     }
@@ -28,7 +31,7 @@ class HeadlinesViewModel: ArticlesViewModel {
 }
 
 extension HeadlinesViewModel {
-    @MainActor // ??
+    @MainActor // Always run on main thread
     func fetchTopHeadlines() async {
         self.viewState = .loading
         
@@ -40,6 +43,7 @@ extension HeadlinesViewModel {
             selectedSourceIdentifiers = SharedData.sharedInstance.selectedSourceIdentifiers
         }
         
+        // If the sources are not selected then prompt to select sources
         guard !selectedSourceIdentifiers.isEmpty else {
             self.viewState = .error(.noSourcesSelected)
             return
@@ -49,20 +53,15 @@ extension HeadlinesViewModel {
             let fetchedHeadlines = try await networkClient.request(endpoint: .getHeadlines(sources: selectedSourceIdentifiers ), as: Articles.self)
             self.articles = fetchedHeadlines.articles
 
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                guard !self.articles.isEmpty else {
-                    self.viewState = .error(.noResultsFound)
-                    return
-                }
-                
-                self.viewState = .successful
+            // If the articles are not found for the selected sources then show no results and prompt to select more sources
+            guard !self.articles.isEmpty else {
+                self.viewState = .error(.noResultsFound)
+                return
             }
+            
+            self.viewState = .successful
         } catch {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.viewState = .error(.unknown(error))
-            }
+            self.viewState = .error(.unknown(error))
         }
     }
 }

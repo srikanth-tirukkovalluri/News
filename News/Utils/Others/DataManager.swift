@@ -7,11 +7,13 @@
 
 import Foundation
 
+/// DataManager is a convenience object used to save, load and delete data from a file
 struct DataManager {
-    static func getDocumentsDirectory() -> URL {
+    static private func getDocumentsDirectory() -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
     
+    // Write data
     static func saveData<T: Codable>(_ data: T, to fileName: String) {
         let jsonEncoder = JSONEncoder()
         if let dataToSave = try? jsonEncoder.encode(data) {
@@ -25,6 +27,7 @@ struct DataManager {
         }
     }
     
+    // Read data
     static func loadData<T: Codable>(from fileName: String, as type: T.Type) -> T? {
         let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
         guard let data = try? Data(contentsOf: fileURL) else { return nil }
@@ -38,6 +41,7 @@ struct DataManager {
         }
     }
     
+    // Delete data
     static func deleteData(at fileName: String) {
         let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
         do {

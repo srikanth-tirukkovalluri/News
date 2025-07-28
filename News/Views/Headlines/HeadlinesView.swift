@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// HeadlinesView shows the fetched Articles in a ListView.
 struct HeadlinesView: View {
     @ObservedObject var viewModel: HeadlinesViewModel
     @EnvironmentObject var sharedData: SharedData

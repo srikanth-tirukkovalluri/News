@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// The response from sources API is captured in Sources model.
 struct Sources: Codable {
     let status: String
     let sources: [Source]

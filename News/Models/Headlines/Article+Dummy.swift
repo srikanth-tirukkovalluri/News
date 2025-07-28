@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Convenience menthods to generate dummy Articles for the previews to work.
 extension Article {
     static func dummyArticles(filteredBy sources: [Source]? = nil) -> [Article] {
         do {

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// The response from headlines API is captured in Articles model.
 struct Articles: Codable {
     let status: String
     let totalResults: Int
@@ -51,12 +52,13 @@ struct Article: Codable, Hashable, Identifiable {
         return URL(string: urlPath)
     }
     
+    /// Used as the dates in the JSON are amongst the following formats. Any unknown format will make the parser fail
     static let jsonDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
-        let dateFormatters = [DateFormatter.dateFormatter1,
-                              DateFormatter.dateFormatter2,
-                              DateFormatter.dateFormatter3,
-                              DateFormatter.dateFormatter4]
+        let dateFormatters = [DateFormatter.isoDateFormatter,
+                              DateFormatter.isoWithMilliSecondsDateFormatter,
+                              DateFormatter.isoWithColonTimeZoneDateFormatter,
+                              DateFormatter.isoWithoutTimeZoneDateFormatter]
         
         decoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()

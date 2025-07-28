@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// ArticleListItemView is custom container view that holds the Article capturing the details in a List
 struct ArticleListItemView: View {
     @State var article: Article
 

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// ArticlesViewModel is a base ViewModel used to hold Articles
 class ArticlesViewModel: ObservableObject {
     @Published var articles = [Article]()
 

@@ -7,10 +7,12 @@
 
 import Foundation
 
+/// NetworkClientProvider hosts methods for making api calls.
 protocol NetworkClientProvider {
     func request<T: Decodable>(endpoint: EndpointConfiguration, as type: T.Type) async throws -> T
 }
 
+/// NetworkClient is used to make an API call based on the EndpointConfiguration
 class NetworkClient: NetworkClientProvider {
     private let session: URLSession
     private let jsonDecoder: JSONDecoder
@@ -25,7 +27,7 @@ class NetworkClient: NetworkClientProvider {
     ///   - endpoint: The API endpoint to request.
     ///   - type: The Codable type to decode the response into.
     /// - Returns: An instance of the specified Codable type.
-    /// - Throws: `APIError` if the request fails or decoding fails.
+    /// - Throws: `NetworkError` if the request fails or decoding fails.
     func request<T: Decodable>(endpoint: EndpointConfiguration, as type: T.Type) async throws -> T {
         guard let urlRequest = endpoint.urlRequest else {
             throw NetworkError.invalidURL

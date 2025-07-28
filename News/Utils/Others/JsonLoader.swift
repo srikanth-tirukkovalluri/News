@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// A convenience object used to decode a codable object from JSON
 struct JsonLoader {
     static func loadJSON<T: Decodable>(filename: String, type: T.Type, jsonDecoder: JSONDecoder = JSONDecoder()) throws -> T {
         // 1. Find the URL for the resource in the main bundle
