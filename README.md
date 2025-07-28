@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/f4dac3de-1d96-4627-a07e-97b1c0169262
 
 
 | Loading  | Headlines | Article WebView | Error  | No Results |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
 | <img width="200" height="435" alt="3 4 - Headlines Loading" src="https://github.com/user-attachments/assets/c0b1e7a8-b059-4486-919e-bc1f1678ba8b" />  | <img width="200" height="435" alt="3 - Headlines" src="https://github.com/user-attachments/assets/a9aa0fd0-c1b3-4a07-ae5f-30ac0612fd69" />  | <img width="200" height="435" alt="6 - Article WebView" src="https://github.com/user-attachments/assets/decec54a-e2e4-490a-bb99-36e43e74d799" />  | <img width="200" height="435" alt="3 3 - Headlines Error" src="https://github.com/user-attachments/assets/89a82858-a286-4b1c-b120-b28c8ac379f8" />  | <img width="200" height="435" alt="3 2 - Headlines No Results" src="https://github.com/user-attachments/assets/9fbd2fdd-db8a-44a8-b052-80f5962d2522" />  |
 
 3. **Sources Tab**
