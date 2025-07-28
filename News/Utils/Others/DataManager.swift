@@ -37,4 +37,13 @@ struct DataManager {
             return nil
         }
     }
+    
+    static func deleteData(at fileName: String) {
+        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch {
+            print("Error deleting fileName: \(fileName) \(error)")
+        }
+    }
 }

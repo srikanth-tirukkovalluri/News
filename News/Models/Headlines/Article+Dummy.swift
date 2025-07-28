@@ -11,7 +11,7 @@ extension Article {
     static func dummyArticles(filteredBy sources: [Source]? = nil) -> [Article] {
         do {
             // Attempt to load and decode an array of Article objects
-            let loadedArticles = try JsonLoader.loadJSON(filename: "top-headlines", type: Articles.self)
+            let loadedArticles = try JsonLoader.loadJSON(filename: "top-headlines", type: Articles.self, jsonDecoder: Article.jsonDecoder)
             
             if let sources = sources {
                 let sourceNames = sources.map { $0.name }

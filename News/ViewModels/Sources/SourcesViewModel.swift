@@ -11,12 +11,13 @@ class SourcesViewModel: ObservableObject {
     @Published var viewState: SourcesViewState = .new
     @Published var sourceItems: [SourceItem]
 
-    private let networkClient = NetworkClient()
-    private var sharedData: SharedData
+    var sharedData: SharedData
+    private let networkClient: NetworkClientProvider
 
-    init(sharedData: SharedData) {
+    init(sharedData: SharedData, networkClient: NetworkClientProvider = NetworkClient()) {
         self.sharedData = sharedData
         self.sourceItems = sharedData.sourceItems
+        self.networkClient = networkClient
 
         // Subscribe to changes in the SharedData
         sharedData.$sourceItems.assign(to: &$sourceItems)
@@ -44,7 +45,12 @@ extension SourcesViewModel {
                 guard let self = self else { return }
                 self.sourceItems = fetchedSources.sources.map { SourceItem(source: $0, isSelected: false) }
                 self.modifySharedData(sourceItems: sourceItems)
-                self.viewState = .successful
+                
+                if self.sourceItems.isEmpty {
+                    self.viewState = .error(.noResultsFound)
+                } else {
+                    self.viewState = .successful
+                }
             }
         } catch {
             DispatchQueue.main.async { [weak self] in

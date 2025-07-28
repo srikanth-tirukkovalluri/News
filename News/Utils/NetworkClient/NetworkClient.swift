@@ -52,7 +52,6 @@ class NetworkClient: NetworkClientProvider {
             return try jsonDecoder.decode(type, from: data)
         } catch {
             print("Decoding Error: \(error)") // For debugging
-            print("Raw JSON Data: \(String(data: data, encoding: .utf8) ?? "N/A")") // For debugging
             throw NetworkError.decodingError(error)
         }
     }

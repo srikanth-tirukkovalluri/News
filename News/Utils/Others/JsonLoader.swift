@@ -8,7 +8,7 @@
 import Foundation
 
 struct JsonLoader {
-    static func loadJSON<T: Decodable>(filename: String, type: T.Type) throws -> T {
+    static func loadJSON<T: Decodable>(filename: String, type: T.Type, jsonDecoder: JSONDecoder = JSONDecoder()) throws -> T {
         // 1. Find the URL for the resource in the main bundle
         guard let url = Bundle.main.url(forResource: filename, withExtension: "json") else {
             throw JsonLoaderError.fileNotFound
@@ -22,12 +22,8 @@ struct JsonLoader {
             throw JsonLoaderError.dataCorrupted(error)
         }
 
-        // 3. Decode the data into the specified type using JSONDecoder
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-
         do {
-            let decodedObject = try decoder.decode(type, from: data)
+            let decodedObject = try jsonDecoder.decode(type, from: data)
             return decodedObject
         } catch {
             throw JsonLoaderError.decodingFailed(error)

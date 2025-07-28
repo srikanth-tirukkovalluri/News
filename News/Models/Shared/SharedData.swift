@@ -8,6 +8,9 @@
 import SwiftUI
 
 class SharedData: ObservableObject {
+    static let savedArticlesKey: String = "SavedArticles"
+    static let selectedSourceIdentifiersKey: String = "SelectedSourceIdentifiers"
+
     @Published var sourceItems = [SourceItem]()
     @Published var savedArticles = [Article]()
     @Published var selectedTabItem: TabViewItem = .topHeadlines
@@ -32,19 +35,19 @@ class SharedData: ObservableObject {
 
 extension SharedData {
     func saveArticles() {
-        DataManager.saveData(savedArticles, to: "SavedArticles")
+        DataManager.saveData(savedArticles, to: Self.savedArticlesKey)
     }
     
     private func readArticles() {
-        self.savedArticles = DataManager.loadData(from: "SavedArticles", as: [Article].self) ?? [Article]()
+        self.savedArticles = DataManager.loadData(from: Self.savedArticlesKey, as: [Article].self) ?? [Article]()
     }
     
     func saveSelectedSourceIdentifiers() {
         let selectedSourceIdentifiers = self.sourceItems.compactMap { $0.isSelected ? $0.source.identifier : nil }
-        DataManager.saveData(selectedSourceIdentifiers, to: "SelectedSourceIdentifiers")
+        DataManager.saveData(selectedSourceIdentifiers, to: Self.selectedSourceIdentifiersKey)
     }
     
     private func readSaveSelectedSourceIdentifiers() {
-        self.selectedSourceIdentifiers = DataManager.loadData(from: "SelectedSourceIdentifiers", as: [String].self) ?? [String]()
+        self.selectedSourceIdentifiers = DataManager.loadData(from: Self.selectedSourceIdentifiersKey, as: [String].self) ?? [String]()
     }
 }
