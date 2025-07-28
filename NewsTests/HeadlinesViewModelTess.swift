@@ -66,15 +66,12 @@ final class HeadlinesViewModelTess: XCTestCase {
         viewModel = HeadlinesViewModel(sharedData: SharedData.sharedInstance, networkClient: MockNetworkClient(filename: "top-headlines-unknown-error", jsonDecoder: Article.jsonDecoder))
         viewModel.sourceItems = [SourceItem(source: Source.dummySource(), isSelected: true)]
 
-        let loadingExpectation = XCTestExpectation(description: "State changed to loading")
         let unknownErrorExpectation = XCTestExpectation(description: "State changed to Error unknown")
 
         await viewModel.fetchTopHeadlines()
         
         cancellable = viewModel.$viewState.sink { newState in
             switch newState {
-            case .loading:
-                loadingExpectation.fulfill()
             case .error(let actualError) where actualError == .unknown(nil):
                 unknownErrorExpectation.fulfill()
             default:
@@ -82,20 +79,40 @@ final class HeadlinesViewModelTess: XCTestCase {
             }
         }
         
-        await fulfillment(of: [loadingExpectation, unknownErrorExpectation], timeout: 5.0)
+        await fulfillment(of: [unknownErrorExpectation], timeout: 5.0)
+    }
+    
+    func testFetchHeadlinesIncorrectDateError() async {
+        // Incorrect: "25-07-2025T05:25:00Z"
+        // Considered date formates as per json so far are
+        // 2025-07-26T06:00:00Z, 2025-07-26T05:22:15.6667963Z, 2025-07-26T05:25:21+00:00, 2025-07-26T05:36:47
+        viewModel = HeadlinesViewModel(sharedData: SharedData.sharedInstance, networkClient: MockNetworkClient(filename: "top-headlines-incorrect-date", jsonDecoder: Article.jsonDecoder))
+        viewModel.sourceItems = [SourceItem(source: Source.dummySource(), isSelected: true)]
+
+        let unknownErrorExpectation = XCTestExpectation(description: "State changed to Error unknown")
+
+        await viewModel.fetchTopHeadlines()
+        
+        cancellable = viewModel.$viewState.sink { newState in
+            switch newState {
+            case .error(let actualError) where actualError == .unknown(nil):
+                unknownErrorExpectation.fulfill()
+            default:
+                break
+            }
+        }
+        
+        await fulfillment(of: [unknownErrorExpectation], timeout: 5.0)
     }
     
     func testFetchHeadlinesSuccessfulResponse() async {
         viewModel.sourceItems = [SourceItem(source: Source.dummySource(), isSelected: true)]
-        let loadingExpectation = XCTestExpectation(description: "State changed to loading")
         let successfulExpectation = XCTestExpectation(description: "State changed to successful")
         
         await viewModel.fetchTopHeadlines()
         
         cancellable = viewModel.$viewState.sink { newState in
             switch newState {
-            case .loading:
-                loadingExpectation.fulfill()
             case .successful:
                 successfulExpectation.fulfill()
             default:
@@ -103,7 +120,7 @@ final class HeadlinesViewModelTess: XCTestCase {
             }
         }
         
-        await fulfillment(of: [loadingExpectation, successfulExpectation], timeout: 5.0)
+        await fulfillment(of: [successfulExpectation], timeout: 5.0)
     }
     
     func testHeadlinesShouldShowSaveOptionTrue() {

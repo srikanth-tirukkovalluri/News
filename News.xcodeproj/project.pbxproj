@@ -36,6 +36,7 @@
 				"SampleData/sources-empty.json",
 				SampleData/sources.json,
 				"SampleData/top-headlines-empty.json",
+				"SampleData/top-headlines-incorrect-date.json",
 				"SampleData/top-headlines.json",
 			);
 			target = F30C78DA2E34A3280087FA9C /* News */;
@@ -46,6 +47,7 @@
 				"SampleData/sources-empty.json",
 				SampleData/sources.json,
 				"SampleData/top-headlines-empty.json",
+				"SampleData/top-headlines-incorrect-date.json",
 				"SampleData/top-headlines.json",
 			);
 			target = F30C78E72E34A32A0087FA9C /* NewsTests */;
