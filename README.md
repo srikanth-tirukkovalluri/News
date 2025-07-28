@@ -27,6 +27,11 @@ App includes a TabView with three tabs:
 	- Users can delete saved articles
 	- Saved articles are persisted across app launches
 
+
+##### Video
+
+https://github.com/user-attachments/assets/f9f84669-95c4-4f5a-98e8-2b40156f99d7
+
 ##### Screens
 
 1. **Main Screen**
