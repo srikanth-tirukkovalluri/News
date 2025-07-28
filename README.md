@@ -67,7 +67,7 @@ Followed MVVM architecture, where the **View** binds to the **ViewModel's** obse
 
 In the body of MainContentView we created a TabView which hosts **HeadlinesView, SourcesView and SavedArticlesView**. The each view is given their ViewModel's instance while creating those views. 
 
-HeadlinesView and SavedArticlesView share same ViewModel as the most of the functionality remains same except how they both source data.
+HeadlinesView and SavedArticlesView share same kind of parent ViewModel(ArticlesViewModel) as the most of the functionality remains same except how they both source data.
 
 **HeadlinesView**
 HeadlinesView relies on HeadlinesViewState to update its content. Basically there are 4 states namely new, loading, successful and error. When there is an error, based on its type the UI is defined(noSourcesSelected, noResultsFound and unknown). Unknown could be any generic error(since we don't have any specific usecase to show different UI for different error).
@@ -80,7 +80,7 @@ When a headline(which is nothing but an article) is tapped, we show the headline
 SourcesView relies on SourcesViewState to update its content. Basically there are 4 states namely new, loading, successful and error. When there is an error, based on its type the UI is defined(noResultsFound and unknown). Unknown could be any generic error(since we don't have any specific usecase to show different UI for different error).
 
 **SavedArticlesView**
-SavedArticlesView relies on HeadlinesViewModel as it hosts content fetched by HeadlinesViewModel, where a user saves the article. 
+SavedArticlesView relies on SavedArticlesViewModel to show the articles saved previously. 
 
 **SharedData**
 SharedData is a class that hosts the shared content between view and also takes care of saving the data to filesystem for later use.
@@ -93,6 +93,12 @@ DataManager is a utility that helps in saving and retrieving a codable complient
 
 **JsonLoader**
 JsonLoader is used to decode mock json files for the previews to load.
+
+**AsyncImageView**
+AsyncImageView loads the image asynchronously handling the state of downloaded image.
+
+**ArticleWebView**
+ArticleWebView loads a given article in WebView(which hosts WKWebView). It also has an option to save the article.
 
 **Model classes**
 Source and Article are the model classes that are created when an API returns

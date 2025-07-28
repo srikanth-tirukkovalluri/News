@@ -10,6 +10,7 @@ import SwiftUI
 struct MainContentView: View {
     @StateObject private var headlinesViewModel: HeadlinesViewModel
     @StateObject private var sourcesViewModel: SourcesViewModel
+    @StateObject private var savedArticlesViewModel: SavedArticlesViewModel
     @StateObject var sharedData: SharedData
 
     init(sharedData: SharedData) {
@@ -18,6 +19,7 @@ struct MainContentView: View {
         _sharedData = StateObject(wrappedValue: sharedData)
         _headlinesViewModel = StateObject(wrappedValue: HeadlinesViewModel(sharedData: sharedData))
         _sourcesViewModel = StateObject(wrappedValue: SourcesViewModel(sharedData: sharedData))
+        _savedArticlesViewModel = StateObject(wrappedValue: SavedArticlesViewModel(sharedData: sharedData))
     }
     
     var body: some View {
@@ -32,7 +34,7 @@ struct MainContentView: View {
                     Label(TabViewItem.sources.title, systemImage: TabViewItem.sources.systemImage)
                 }
                 .tag(TabViewItem.sources)
-            SavedArticlesView(viewModel: headlinesViewModel)
+            SavedArticlesView(viewModel: savedArticlesViewModel)
                 .tabItem {
                     Label(TabViewItem.savedArticles.title, systemImage: TabViewItem.savedArticles.systemImage)
                 }

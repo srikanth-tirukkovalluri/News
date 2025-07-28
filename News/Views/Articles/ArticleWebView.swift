@@ -36,6 +36,13 @@ struct ArticleWebView: View {
             .toolbar {
                 self.toolbarItems()
             }
+            .alert(Text("Saved!!"), isPresented: $showSavedAlert) {
+                Button("OK") {
+                    // Action
+                }
+            } message: {
+                Text("This article is now saved to your saved articles list.")
+            }
         }
     }
     
@@ -70,10 +77,9 @@ struct ArticleWebView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save Article", systemImage: "square.and.arrow.down") {
                     sharedData.savedArticles.append(self.article)
-                    self.showSavedAlert = true
-                }
-                .alert(isPresented: $showSavedAlert) {
-                    Alert(title: Text("Saved!!"), message: Text("This article is now saved to your saved articles list."), dismissButton: .default(Text("OK")))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.showSavedAlert = true
+                    }
                 }
             }
         }

@@ -7,14 +7,17 @@
 
 import Foundation
 
-class NetworkClient {
+protocol NetworkClientProvider {
+    func request<T: Decodable>(endpoint: EndpointConfiguration, as type: T.Type) async throws -> T
+}
+
+class NetworkClient: NetworkClientProvider {
     private let session: URLSession
     private let jsonDecoder: JSONDecoder
 
     init(session: URLSession = .shared, jsonDecoder: JSONDecoder = JSONDecoder()) {
         self.session = session
         self.jsonDecoder = jsonDecoder
-        
     }
 
     /// Fetches data from a given API endpoint and decodes it into a Codable type.

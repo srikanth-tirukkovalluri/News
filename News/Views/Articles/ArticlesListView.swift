@@ -10,7 +10,7 @@ import SwiftUI
 struct ArticlesListView: View {
     @Environment(\.editMode) private var editMode
     
-    @ObservedObject var viewModel: HeadlinesViewModel
+    @ObservedObject var viewModel: ArticlesViewModel
     
     // State to hold the currently selected article. When this becomes non-nil, the sheet will present.
     @State private var selectedArticle: Article?
@@ -18,14 +18,14 @@ struct ArticlesListView: View {
     
     let isShowingSavedArticles: Bool
     
-    init(viewModel: HeadlinesViewModel, isShowingSavedArticles: Bool) {
+    init(viewModel: ArticlesViewModel) {
         self.viewModel = viewModel
-        self.isShowingSavedArticles = isShowingSavedArticles
+        self.isShowingSavedArticles = viewModel is SavedArticlesViewModel
     }
 
     var body: some View {
         List {
-            ForEach(isShowingSavedArticles ? viewModel.savedArticles : viewModel.headlines) { article in
+            ForEach(viewModel.articles) { article in
                 ArticleListItemView(article: article)
                     .onTapGesture {
                         // Disable tap when the tableview is in editing mode
@@ -39,7 +39,8 @@ struct ArticlesListView: View {
         }
         .listStyle(.plain)
         .sheet(item: $selectedArticle) { article in
-            ArticleWebView(shouldShowSaveOption: viewModel.shouldShowSaveOption(for: article), article: article)
+            let shouldShowSaveOption = (viewModel as? HeadlinesViewModel)?.shouldShowSaveOption(for: article) ?? false
+            ArticleWebView(shouldShowSaveOption: shouldShowSaveOption, article: article)
         }
         .toolbar {
             if self.isShowingSavedArticles {
@@ -49,11 +50,11 @@ struct ArticlesListView: View {
     }
     
     func deleteItem(at offsets: IndexSet) {
-        viewModel.deleteSavedArticles(at: offsets)
+        (viewModel as? SavedArticlesViewModel)?.deleteSavedArticles(at: offsets)
     }
 }
 
 #Preview {
-    ArticlesListView(viewModel: HeadlinesViewModel(sharedData: SharedData.sharedInstance), isShowingSavedArticles: false)
+    ArticlesListView(viewModel: ArticlesViewModel(sharedData: SharedData.sharedInstance))
         .environmentObject(SharedData.sharedInstance)
 }

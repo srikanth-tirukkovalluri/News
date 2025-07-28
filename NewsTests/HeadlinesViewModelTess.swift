@@ -1,14 +1,13 @@
 //
-//  NewsTests.swift
+//  HeadlinesViewModelTess.swift
 //  NewsTests
 //
-//  Created by Srikanth Chaitanya Tirukkovalluri on 26/7/2025.
+//  Created by Srikanth Chaitanya Tirukkovalluri on 28/7/2025.
 //
 
 import XCTest
-@testable import News
 
-final class NewsTests: XCTestCase {
+final class HeadlinesViewModelTess: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

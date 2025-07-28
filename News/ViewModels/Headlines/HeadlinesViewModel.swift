@@ -7,37 +7,23 @@
 
 import Foundation
 
-class HeadlinesViewModel: ObservableObject {
-    @Published var headlines: [Article] = []
-    @Published var savedArticles: [Article] = []
+class HeadlinesViewModel: ArticlesViewModel {
     @Published var viewState: HeadlinesViewState = .new
     @Published var sourceItems: [SourceItem]
 
-    private var sharedData: SharedData
-    private let networkClient = NetworkClient(jsonDecoder: Article.jsonDecoder)
+    private let networkClient: NetworkClientProvider
     
     func shouldShowSaveOption(for article: Article) -> Bool {
-        !savedArticles.contains(article)
+        !self.sharedData.savedArticles.map({ $0.urlPath }).contains(article.urlPath)
     }
     
-    init(sharedData: SharedData) {
-        self.sharedData = sharedData
+    init(sharedData: SharedData, networkClient: NetworkClientProvider = NetworkClient(jsonDecoder: Article.jsonDecoder)) {
         self.sourceItems = sharedData.sourceItems
-        self.savedArticles = sharedData.savedArticles
+        self.networkClient = networkClient
+        super.init(sharedData: sharedData)
 
         // Subscribe to changes in the SharedData
         sharedData.$sourceItems.assign(to: &$sourceItems)
-        sharedData.$savedArticles.assign(to: &$savedArticles)
-    }
-    
-    private func modifySharedSourceItems(_ sourceItems: [SourceItem]) {
-        // Push changes back to SharedData
-        sharedData.updateSourceItems(sourceItems)
-    }
-    
-    private func modifySharedSavedArticles(_ savedArticles: [Article]) {
-        // Push changes back to SharedData
-        sharedData.updateSavedArticles(savedArticles)
     }
 }
 
@@ -61,11 +47,11 @@ extension HeadlinesViewModel {
         
         do {
             let fetchedHeadlines = try await networkClient.request(endpoint: .getHeadlines(sources: selectedSourceIdentifiers ), as: Articles.self)
-            self.headlines = fetchedHeadlines.articles
+            self.articles = fetchedHeadlines.articles
 
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                guard !self.headlines.isEmpty else {
+                guard !self.articles.isEmpty else {
                     self.viewState = .error(.noResultsFound)
                     return
                 }
@@ -78,10 +64,5 @@ extension HeadlinesViewModel {
                 self.viewState = .error(.unknown(error))
             }
         }
-    }
-
-    func deleteSavedArticles(at offsets: IndexSet) {
-        savedArticles.remove(atOffsets: offsets)
-        modifySharedSavedArticles(savedArticles)
     }
 }
