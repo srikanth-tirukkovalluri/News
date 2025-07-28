@@ -44,14 +44,21 @@ class HeadlinesViewModel: ObservableObject {
     func fetchTopHeadlines() async {
         self.viewState = .loading
         
-        let selectedSources = self.sourceItems.compactMap { $0.isSelected ? $0 : nil }
-        guard !selectedSources.isEmpty else {
+        var selectedSourceIdentifiers = self.sourceItems.compactMap { $0.isSelected ? $0.source.identifier : nil }
+        
+        // If user has just launched the app and since sources are empty,
+        // use saved selected source identifiers to fetch top headlines instead of showing blank screen
+        if selectedSourceIdentifiers.isEmpty {
+            selectedSourceIdentifiers = SharedData.sharedInstance.selectedSourceIdentifiers
+        }
+        
+        guard !selectedSourceIdentifiers.isEmpty else {
             self.viewState = .error(.noSourcesSelected)
             return
         }
         
         do {
-            let fetchedHeadlines = try await networkClient.request(endpoint: .getHeadlines(sources: selectedSources.compactMap { $0.source.identifier} ), as: Articles.self)
+            let fetchedHeadlines = try await networkClient.request(endpoint: .getHeadlines(sources: selectedSourceIdentifiers ), as: Articles.self)
             self.headlines = fetchedHeadlines.articles
 
             DispatchQueue.main.async { [weak self] in
