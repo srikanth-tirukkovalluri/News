@@ -30,9 +30,9 @@ App includes a TabView with three tabs:
 ##### Screens
 
 1. App Icon and Launch Screens
-| App Icon  | Launch Screen  |
-|:----------|:----------|
-| <img width="200" height="435" alt="1 - Home Screen" src="https://github.com/user-attachments/assets/dd89b482-d0b1-4c9c-bada-a7c2d549f084" />    | <img width="200" height="435" alt="2 - Launch Screen" src="https://github.com/user-attachments/assets/7905c235-17bc-4f71-9db2-389740d21ce7" />    |
+| App Icon  | Launch Screen |
+| ------------- | ------------- |
+| <img width="200" height="435" alt="1 - Home Screen" src="https://github.com/user-attachments/assets/dd89b482-d0b1-4c9c-bada-a7c2d549f084" />  | <img width="200" height="435" alt="2 - Launch Screen" src="https://github.com/user-attachments/assets/7905c235-17bc-4f71-9db2-389740d21ce7" />  |
 
 
 
