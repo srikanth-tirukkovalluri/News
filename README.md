@@ -59,6 +59,52 @@ App includes a TabView with three tabs:
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | <img width="200" height="435" alt="5 - Saved Articles" src="https://github.com/user-attachments/assets/e02901c8-1665-44fa-a608-665204eaf1f3" />  | <img width="200" height="435" alt="5 1 - Saved Articles Delete" src="https://github.com/user-attachments/assets/ac71c1b8-3ea2-474e-abc2-db5ed8ad8044" />  | <img width="200" height="435" alt="5 2 - Saved Articles Empty" src="https://github.com/user-attachments/assets/d2acf830-86e7-47d7-a6e7-dcf5b07b87d4" />  | <img width="200" height="435" alt="6 - Article WebView" src="https://github.com/user-attachments/assets/feac3057-083d-4575-a760-f1c60f0aa261" />  | <img width="200" height="435" alt="6 1 - Article WebView Error" src="https://github.com/user-attachments/assets/dd955346-5f2f-415f-b046-ec14b6dd33ab" />  |
 
+## Technical Overview
+Followed MVVM architecture, where the **View** binds to the **ViewModel's** observable outputs, updating the UI automatically when the ViewModel's data changes. User interactions in the View are sent as inputs to the ViewModel, which then processes them, interacts with the Model if needed, and updates its own state, which in turn triggers View updates.
+
+## Code walk through
+**NewsApp** is the main entry point for the app, we create **MainContentView** by passing the **SharedData** instance which holds the data that is shared between Headlines, Sources and Saved Articles screens.
+
+In the body of MainContentView we created a TabView which hosts **HeadlinesView, SourcesView and SavedArticlesView**. The each view is given their ViewModel's instance while creating those views. 
+
+HeadlinesView and SavedArticlesView share same ViewModel as the most of the functionality remains same except how they both source data.
+
+**HeadlinesView**
+HeadlinesView relies on HeadlinesViewState to update its content. Basically there are 4 states namely new, loading, successful and error. When there is an error, based on its type the UI is defined(noSourcesSelected, noResultsFound and unknown). Unknown could be any generic error(since we don't have any specific usecase to show different UI for different error).
+
+We used .task view modifier to initiate fetching of headlines when the view loads. Based on the different scenarios the state is updated and the view is updated accordingly.
+
+When a headline(which is nothing but an article) is tapped, we show the headline in a WebView by using the url associated with headline.
+
+**SourcesView**
+SourcesView relies on SourcesViewState to update its content. Basically there are 4 states namely new, loading, successful and error. When there is an error, based on its type the UI is defined(noResultsFound and unknown). Unknown could be any generic error(since we don't have any specific usecase to show different UI for different error).
+
+**SavedArticlesView**
+SavedArticlesView relies on HeadlinesViewModel as it hosts content fetched by HeadlinesViewModel, where a user saves the article. 
+
+**SharedData**
+SharedData is a class that hosts the shared content between view and also takes care of saving the data to filesystem for later use.
+
+**NetworkClient**
+NetworkClient is used to make API calls and fetch response. It relies on EndpointConfiguration to understand which API call to invoke.
+
+**DataManager**
+DataManager is a utility that helps in saving and retrieving a codable complient object into filesystem.
+
+**JsonLoader**
+JsonLoader is used to decode mock json files for the previews to load.
+
+**Model classes**
+Source and Article are the model classes that are created when an API returns
+SourceItem is used to capture the source selection
+
+**UIApplicationDelegateAdaptor**
+UIApplicationDelegateAdaptor is used to tap into the application state and save data before the app is killed.
+
+
+
+
+
 
 
 

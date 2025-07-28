@@ -11,10 +11,6 @@ struct HeadlinesView: View {
     @ObservedObject var viewModel: HeadlinesViewModel
     @EnvironmentObject var sharedData: SharedData
 
-    @State var shouldShowSaveOption: Bool = true
-        
-    private let networkClient = NetworkClient(jsonDecoder: Article.jsonDecoder)
-
     var body: some View {
         NavigationStack {
             VStack {

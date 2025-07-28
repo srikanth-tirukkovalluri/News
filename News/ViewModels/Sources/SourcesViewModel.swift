@@ -26,7 +26,9 @@ class SourcesViewModel: ObservableObject {
         // Push changes back to SharedData
         sharedData.updateSourceItems(sourceItems)
     }
-    
+}
+
+extension SourcesViewModel {
     @MainActor
     func fetchSources() async {
         if case .successful = viewState, !self.sourceItems.isEmpty {
@@ -74,29 +76,5 @@ class SourcesViewModel: ObservableObject {
         }
         
         self.modifySharedData(sourceItems: newSourceItems)
-    }
-}
-
-enum SourcesViewState {
-    case new
-    case loading
-    case successful
-    case error(SourcesError)
-}
-
-struct SourceItem: Hashable, Identifiable {
-    let id = UUID()
-    let source: Source
-    var isSelected: Bool
-    
-    init(source: Source, isSelected: Bool) {
-        self.source = source
-        
-        // Preselect a source if found in saved data
-        if SharedData.sharedInstance.selectedSourceIdentifiers.contains(source.identifier) {
-            self.isSelected = true
-        } else {
-            self.isSelected = isSelected
-        }
     }
 }

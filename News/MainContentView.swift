@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct MainContentView: View {
-    @EnvironmentObject var sharedData: SharedData
     @StateObject private var headlinesViewModel: HeadlinesViewModel
     @StateObject private var sourcesViewModel: SourcesViewModel
+    @StateObject var sharedData: SharedData
 
     init(sharedData: SharedData) {
         // Initialize the StateObject using the wrappedValue
         // This ensures the object is created only once for the view's lifetime.
+        _sharedData = StateObject(wrappedValue: sharedData)
         _headlinesViewModel = StateObject(wrappedValue: HeadlinesViewModel(sharedData: sharedData))
         _sourcesViewModel = StateObject(wrappedValue: SourcesViewModel(sharedData: sharedData))
     }
@@ -42,5 +43,4 @@ struct MainContentView: View {
 
 #Preview {
     MainContentView(sharedData: SharedData.sharedInstance)
-        .environmentObject(SharedData.sharedInstance)
 }

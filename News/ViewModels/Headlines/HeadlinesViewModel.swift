@@ -39,7 +39,9 @@ class HeadlinesViewModel: ObservableObject {
         // Push changes back to SharedData
         sharedData.updateSavedArticles(savedArticles)
     }
+}
 
+extension HeadlinesViewModel {
     @MainActor // ??
     func fetchTopHeadlines() async {
         self.viewState = .loading
@@ -77,18 +79,9 @@ class HeadlinesViewModel: ObservableObject {
             }
         }
     }
-}
 
-extension HeadlinesViewModel {
     func deleteSavedArticles(at offsets: IndexSet) {
         savedArticles.remove(atOffsets: offsets)
         modifySharedSavedArticles(savedArticles)
     }
-}
-
-enum HeadlinesViewState {
-    case new
-    case loading
-    case successful
-    case error(HeadlinesError)
 }
