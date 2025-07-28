@@ -8,7 +8,6 @@
 import SwiftUI
 
 class SharedData: ObservableObject {
-    @Published var topHeadlines = [Article]()
     @Published var sourceItems = [SourceItem]()
     @Published var savedArticles = [Article]()
     @Published var selectedTabItem: TabViewItem = .topHeadlines

@@ -1,36 +1,42 @@
-Medibank iOS Code Challenge – SwiftUI Edition
+# Medibank iOS Code Challenge – SwiftUI Edition
 
-Challenge Overview
+## Challenge Overview
 
 Build an an using SwiftUI where it will fetch and display trending articles from NewsAPI, allow users to filter by sources, and support saving articles for later reading.
 
-News 
-Main Navigation (Tab View)
+#### News 
+##### Main Navigation (Tab View)
 
-Your app should include a TabView with three tabs:
+App includes a TabView with three tabs:
 
 1. Top Headlines Tab
-Displays a list of articles based on selected sources.
-Each row includes: title, description, author, thumbnail image, source and publisher details.
-Tapping a row will open the article in a WebView within the app. Users can save the article from this view.
-Handled empty states gracefully (e.g., no sources selected, no results)
+	- Displays a list of articles based on selected sources.
+	- Each row includes: title, description, author, thumbnail image, source and publisher details.
+	- Tapping a row will open the article in a WebView within the app.
+	- Users can save the article from this view.
+	- Handled empty states gracefully (e.g., no sources selected, no results)
 
 2. Sources Tab
-Displays a list of available article sources (English only)
-Users can select multiple sources
-Selection is persisted across app launches
+	- Displays a list of available article sources (English only)
+	- Users can select multiple sources
+	- Selection is persisted across app launches
 
 3. Saved Articles Tab
-Displays a list of articles previously saved by the user
-Tapping a saved article will open it in a WebView
-Users can delete saved articles
-Saved articles are persisted across app launches
+	- Displays a list of articles previously saved by the user
+	- Tapping a saved article will open it in a WebView
+	- Users can delete saved articles
+	- Saved articles are persisted across app launches
 
-Screens
+##### Screens
 
 1. App Icon and Launch Screens
-<img width="200" height="435" alt="1 - Home Screen" src="https://github.com/user-attachments/assets/dd89b482-d0b1-4c9c-bada-a7c2d549f084" />
-<img width="200" height="435" alt="2 - Launch Screen" src="https://github.com/user-attachments/assets/7905c235-17bc-4f71-9db2-389740d21ce7" />
+| App Icon  | Launch Screen  |
+|:----------|:----------|
+| <img width="200" height="435" alt="1 - Home Screen" src="https://github.com/user-attachments/assets/dd89b482-d0b1-4c9c-bada-a7c2d549f084" />    | <img width="200" height="435" alt="2 - Launch Screen" src="https://github.com/user-attachments/assets/7905c235-17bc-4f71-9db2-389740d21ce7" />    |
+
+
+
+
 
 2. Top Headlines
 <img width="200" height="435" alt="3 4 - Headlines Loading" src="https://github.com/user-attachments/assets/c0b1e7a8-b059-4486-919e-bc1f1678ba8b" />
